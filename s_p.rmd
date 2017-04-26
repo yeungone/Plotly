@@ -1,0 +1,35 @@
+---
+title: "Plotly HW - Return on $100 investment for S&P 500, T-Bill and Bonds"
+author: "M. Yeung"
+date: "April 25, 2017"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+## install.packages("plotly")
+library(plotly)
+```
+
+## Source of Stock, T-Bill and Bond data
+The source of the yearly returns are retrieved from fianace.yahoo.com 
+and stored in returns.csv
+```{r file read, echo = TRUE,comment=""}
+returns <- read.csv("returns.csv", na.strings=c("NA","#DIV/0!",""))
+head(returns)
+```
+
+## Create line graph using plotly
+```{r generate plot, echo = TRUE, comment=""}
+p <- plot_ly(returns, x = ~Year, y = ~Stocks, type = "scatter", 
+             mode = "lines",name = "Stocks") %>%
+     add_trace(y = ~T.Bills, name = "T Bills", connectgaps = TRUE) %>%
+     add_trace(y = ~T.Bonds, name = "T Bonds", connectgaps = TRUE) 
+```
+
+
+## Return on $100 investment in each S&P 500, T-Bill and Bonds type since 1928
+```{r market return, echo = FALSE,comment="",warning=FALSE}
+p
+```
+
